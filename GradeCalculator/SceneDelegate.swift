@@ -13,11 +13,66 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
 
+//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+//        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
+//        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
+//        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+//        guard let _ = (scene as? UIWindowScene) else { return }
+//    }
+    
+    // initialize window manually as Main.storyboard is removed
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+      
+        let mainTBC = createTabBar(viewModel: GeneralViewModel()) // createSubjectListNC(rootVC: SubjectListVC())
+        let window = UIWindow(windowScene: windowScene)
+//        window.rootViewController = UINavigationController(rootViewController: TestTableVC(style: .grouped)) //mainTBC // Your initial view controller.
+        window.rootViewController = mainTBC
+        window.makeKeyAndVisible()
+        self.window = window
+    }
+    
+    func createTabBar(viewModel: GeneralViewModel) -> UITabBarController {
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [
+            createSubjectListNC(viewModel: viewModel),
+            createSecondNC(),
+            createThirdNC()
+        ]
+        
+        return tabBarController
+    }
+    
+    func createSubjectListNC(viewModel: GeneralViewModel) -> UINavigationController {
+        let tabBarItemTitle = NSLocalizedString("TAB_LABEL_CALCULATION", comment: "")
+        let tabBarItemImage = UIImage(systemName: "pencil.and.ellipsis.rectangle")
+        let tabBarItemTag = 0
+        let subjectListVC = SubjectListVC(viewModel: viewModel)
+        subjectListVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: tabBarItemTag)
+        let navController = UINavigationController(rootViewController: subjectListVC)
+//        navController.navigationBar.backgroundColor = .white
+        navController.navigationBar.prefersLargeTitles = true
+        return navController
+    }
+    
+    func createSecondNC() -> UINavigationController {
+        let tabBarItemTitle = NSLocalizedString("TAB_LABEL_HISTORY", comment: "")
+        let tabBarItemImage = UIImage(systemName: "clock.fill")
+        let secondVC = SecondVC()
+        secondVC.title = "Second View Controller"
+        secondVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: 1)
+        
+        return UINavigationController(rootViewController: secondVC)
+    }
+    
+    func createThirdNC() -> UINavigationController {
+        let tabBarItemTitle = NSLocalizedString("TAB_LABEL_SETTING", comment: "")
+        let tabBarItemImage = UIImage(systemName: "gear")
+        let thirdVC = ThirdVC()
+        thirdVC.title = "Third View Controller"
+        thirdVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: 2)
+        
+        return UINavigationController(rootViewController: thirdVC)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

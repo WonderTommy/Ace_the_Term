@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  GradeCalculator
+
+  Created by Hao Li on 2020-08-30.
+  Copyright © 2020 Hao Li. All rights reserved.
+*/
+"HELLO_WORLD" = "今日は！";
+"ALERT_MESSAGE_SAVE_RESULT_TO_HISTORY"= "計算結果を履歴ページに保存しますか？";
+"ALERT_TITLE_NEW_SUBJECT" = "新規科目";
+"BUTTON_TEXT_CALCULATE" = "計算";
+"BUTTON_TEXT_CANCEL" = "キャンセル";
+"BUTTON_TEXT_DONE" = "完了";
+"BUTTON_TEXT_EDIT" = "編集";
+"BUTTON_TEXT_SAVE" = "保存";
+"CALCULATION_ITEM_LABEL_FULL_POINTS" = "満点：";
+"CALCULATION_ITEM_LABEL_POINTS" = "点数：";
+"CALCULATION_ITEM_LABEL_WEIGHT" = "パーセンテージ: ";
+"LABEL_TOTAL_SCORE" = "総点数";
+"LABEL_TIME" = "時間";
+"PAGE_TITLE_ADD_ITEM" = "新規";
+"PAGE_TITLE_ADD_SUBJECT" = "新し科目を追加";
+"PAGE_TITLE_CALCULATION" = "計算";
+"PAGE_TITLE_RESULT" = "計算結果";
+"PAGE_TITLE_SUBJECTS" = "科目";
+"RESULT_ITEM_LABEL_TOTAL" = "合計";
+"RESULT_ITEM_LABEL_HIGHEST_POSSITLE" = "最高可能点数";
+"RESULT_ITEM_LABEL_POINTS_LOST" = "失った点数";
+"RESULT_MESSAGE_UNDER" = "現在の合計パーセンテージは100%以下";
+"RESULT_MESSAGE_OVER" = "現在の合計パーセンテージは100%以上";
+"RESULT_MESSAGE_OK" = "現在の合計パーセンテージは 100%";
+"TAB_LABEL_CALCULATION" = "計算";
+"TAB_LABEL_HISTORY" = "履歴";
+"TAB_LABEL_SETTING" = "設定";
+"TEXT_FIELD_HINT_NAME" = "名前";
+"TEXT_FIELD_HINT_FULL_POINTS" = "満点";
+"TEXT_FIELD_HINT_POINTS" = "点数";
+"TEXT_FLEID_HINT_SUBJECT_NAME" = "科目の名前";
+"TEXT_FIELD_HINT_WEIGHT" = "パーセンテージ %";
+"TEXT_FIELD_LABEL_UNKNOWN" = "名前なし";

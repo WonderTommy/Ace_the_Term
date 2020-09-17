@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  GradeCalculator
+
+  Created by Hao Li on 2020-08-30.
+  Copyright © 2020 Hao Li. All rights reserved.
+*/
+"HELLO_WORLD" = "Hello, World!";
+"ALERT_MESSAGE_SAVE_RESULT_TO_HISTORY"= "Would you like to save the result to history page?";
+"ALERT_TITLE_NEW_SUBJECT" = "Add Subject";
+"BUTTON_TEXT_CALCULATE" = "Calculate";
+"BUTTON_TEXT_CANCEL" = "Cancel";
+"BUTTON_TEXT_DONE" = "Done";
+"BUTTON_TEXT_EDIT" = "Edit";
+"BUTTON_TEXT_SAVE" = "Save";
+"CALCULATION_ITEM_LABEL_FULL_POINTS" = "Full Points: ";
+"CALCULATION_ITEM_LABEL_POINTS" = "Points: ";
+"CALCULATION_ITEM_LABEL_WEIGHT" = "Weight: ";
+"LABEL_TOTAL_SCORE" = "Total Score";
+"LABEL_TIME" = "Time";
+"PAGE_TITLE_ADD_ITEM" = "Add Item";
+"PAGE_TITLE_ADD_SUBJECT" = "Add Subject";
+"PAGE_TITLE_CALCULATION" = "Calculation";
+"PAGE_TITLE_RESULT" = "Result";
+"PAGE_TITLE_SUBJECTS" = "Subjects";
+"RESULT_ITEM_LABEL_TOTAL" = "Total";
+"RESULT_ITEM_LABEL_HIGHEST_POSSITLE" = "Highest Possible";
+"RESULT_ITEM_LABEL_POINTS_LOST" = "Percentage Lost";
+"RESULT_MESSAGE_UNDER" = "The total percentage is under 100%";
+"RESULT_MESSAGE_OVER" = "The total percentage is over 100%";
+"RESULT_MESSAGE_OK" = "The total percentage is 100%";
+"TAB_LABEL_CALCULATION" = "Calculation";
+"TAB_LABEL_HISTORY" = "History";
+"TAB_LABEL_SETTING" = "Setting";
+"TEXT_FIELD_HINT_NAME" = "Name";
+"TEXT_FIELD_HINT_FULL_POINTS" = "Full Points";
+"TEXT_FIELD_HINT_POINTS" = "Points";
+"TEXT_FLEID_HINT_SUBJECT_NAME" = "Subject Name";
+"TEXT_FIELD_HINT_WEIGHT" = "Weight %";
+"TEXT_FIELD_LABEL_UNKNOWN" = "Unknown";
