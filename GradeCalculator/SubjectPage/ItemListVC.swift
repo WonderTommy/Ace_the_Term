@@ -13,26 +13,27 @@ protocol ItemListDelegate {
     func modifyItemForSubject(id: Int, name: String, points: Double, fullPoints: Double, weight: Double)
 }
 
-class ItemListVC: UIViewController {
+class ItemListVC: MultiSelectAndMoveTableViewController {
+    private var numOfSections: Int = 1
     private var viewModel: GeneralViewModel
     private var initSubject: Subject!
     private var subject: Subject {
         return viewModel.getSubject(targetSubject: initSubject) ?? initSubject
     }
     
-    private var tableView = UITableView()
+//    private var tableView = UITableView()
     
     private let calculationButtonLabel = NSLocalizedString("BUTTON_TEXT_CALCULATE", comment: "")
     private static let cellIdentifier = "ItemListCell";
     
-    private lazy var selectedIndex: [Bool] = {
-        var temp: [Bool] = []
-        for _ in subject.items {
-            temp.append(false)
-        }
-        return temp
-    }()
-    
+//    private lazy var selectedIndex: [Bool] = {
+//        var temp: [Bool] = []
+//        for _ in subject.items {
+//            temp.append(false)
+//        }
+//        return temp
+//    }()
+//
     private lazy var calculationButton: UIBarButtonItem = {
         return UIBarButtonItem(title: calculationButtonLabel, style: .plain, target: self, action: #selector(calculationButtonSelector))
     }()
@@ -44,6 +45,11 @@ class ItemListVC: UIViewController {
     private lazy var deleteButton: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonSelector))
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.contentInset = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,16 +75,16 @@ class ItemListVC: UIViewController {
     }
     
     private func setNavBar() {
-//        self.navigationItem.largeTitleDisplayMode = .never
+//        self.navigationItem.largeTitleDisplayMode = .automatic
         self.navigationItem.title = self.subject.title
         self.navigationItem.rightBarButtonItems = tableView.isEditing ? [editButtonItem, deleteButton] : [plusButton, editButtonItem, calculationButton]
     }
     
     private func configureTableView() {
-        view.addSubview(self.tableView)
+//        view.addSubview(self.tableView)
         // set delegates
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
+//        self.tableView.delegate = self
+//        self.tableView.dataSource = self
         //set row height
         self.tableView.rowHeight = 112
         //register cells
@@ -86,7 +92,7 @@ class ItemListVC: UIViewController {
         //set constraints
 //        tableView.free()
         self.tableView.allowsMultipleSelectionDuringEditing = true
-        self.tableView.pin(to: self.view)
+//        self.tableView.pin(to: self.view)
     }
     
     private func addNotificationObserver() {
@@ -110,18 +116,9 @@ class ItemListVC: UIViewController {
         self.present(addItemNavController, animated: true, completion: nil)
     }
     
-    @objc private func deleteButtonSelector() {
-        print("trash icon clicked")
-        print(selectedIndex)
+    @objc override func deleteButtonSelector() {
         viewModel.removeItemsForSubject(targetSubject: initSubject, at: selectedIndex)
-        
-        let originLength = selectedIndex.count
-        for rawIndex in 0..<originLength {
-            let index = originLength - 1 - rawIndex
-            if (selectedIndex[index] == true) {
-                selectedIndex.remove(at: index)
-            }
-        }
+        super.deleteButtonSelector()
     }
     
     @objc private func addItemSelector(notification: NSNotification) {
@@ -153,34 +150,29 @@ class ItemListVC: UIViewController {
         tableView.endUpdates()
     }
     
+    override func getDataLength() -> Int {
+        return subject.items.count
+    }
 }
 
-extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
+extension ItemListVC {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
         self.navigationItem.rightBarButtonItems = tableView.isEditing ? [editButtonItem] : [plusButton, editButtonItem, calculationButton]
         self.navigationItem.hidesBackButton = tableView.isEditing
         self.navigationItem.leftBarButtonItem = tableView.isEditing ? deleteButton : nil
-        
-        if !isEditing {
-            for index in 0..<selectedIndex.count {
-                selectedIndex[index] = false
-            }
-        } else {
-            if selectedIndex.count < subject.items.count {
-                for _ in 0..<subject.items.count - selectedIndex.count {
-                    selectedIndex.append(false)
-                }
-            }
-        }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return numOfSections
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.subject.items.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ItemListVC.cellIdentifier) as! ItemListCell
         let item = self.subject.items[indexPath.row]
         cell.setItem(item: item)
@@ -190,41 +182,22 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     // the onclick of cell
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("index: ", indexPath.row)
-        if (tableView.isEditing) {
-//            if (!selectedIndex.contains(indexPath.row)) {
-//                selectedIndex.append(indexPath.row)
-//            }
-            selectedIndex[indexPath.row] = true
-            print(selectedIndex)
-            return
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+        if !tableView.isEditing {
+            let itemDetailVC = ItemDetailVC(mode: .Modify, item: subject.items[indexPath.row], delegate: self)
+            self.navigationController?.pushViewController(itemDetailVC, animated: true)
+            self.tableView.deselectRow(at: indexPath, animated: true)
         }
-//        let itemVC = ItemListVC(subject: calculatorModel.subjects[indexPath.row])
-//        self.navigationController?.pushViewController(itemVC, animated: true)
-        let itemDetailVC = ItemDetailVC(mode: .Modify, item: subject.items[indexPath.row], delegate: self)
-        self.navigationController?.pushViewController(itemDetailVC, animated: true)
-        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print("delect: \(indexPath.row)")
-//        selectedIndex.removeAll(where: { $0 == indexPath.row })
-        selectedIndex[indexPath.row] = false
-        print(selectedIndex)
-    }
-    
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        super.tableView(tableView, moveRowAt: sourceIndexPath, to: destinationIndexPath)
         viewModel.moveItemForSubject(targetSubject: initSubject, from: sourceIndexPath.row, to: destinationIndexPath.row)
-        
-        let tempSource = selectedIndex[sourceIndexPath.row]
-        selectedIndex.remove(at: sourceIndexPath.row)
-        selectedIndex.insert(tempSource, at: destinationIndexPath.row)
-        print(selectedIndex)
     }
 }
 

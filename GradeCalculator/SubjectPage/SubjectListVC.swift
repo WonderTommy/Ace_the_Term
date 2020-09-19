@@ -110,8 +110,8 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     private func configureTableView() {
 //        view.addSubview(self.tableView)
         // set delegates
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
+//        self.tableView.delegate = self
+//        self.tableView.dataSource = self
         //set row height
         self.tableView.rowHeight = 48
         //register cells
