@@ -13,11 +13,12 @@ protocol SubjectListDelegate {
     func modifyItemForSubject(id: Int, name: String, points: Double, fullPoints: Double, weight: Double)
 }
 
-class SubjectListVC: UIViewController {
+class SubjectListVC: MultiSelectAndMoveTableViewController {
     
     
-    private var tableView = UITableView()
+//    private var tableView = UITableView()
 //    private var calculatorModel: CalculatorModel!// = CalculatorModel()
+    private var numOfSections: Int = 1
     private var viewModel: GeneralViewModel
     private var subjects: Array<Subject> {
         get {
@@ -35,13 +36,13 @@ class SubjectListVC: UIViewController {
     
     private let defaultSubjectName = NSLocalizedString("TEXT_FIELD_LABEL_UNKNOWN", comment: "")
     
-    private lazy var selectedIndex: [Bool] = {
-        var temp: [Bool] = []
-        for _ in self.subjects {
-            temp.append(false)
-        }
-        return temp
-    }()
+//    private lazy var selectedIndex: [Bool] = {
+//        var temp: [Bool] = []
+//        for _ in self.subjects {
+//            temp.append(false)
+//        }
+//        return temp
+//    }()
     
     private let alertTitle = NSLocalizedString("ALERT_TITLE_NEW_SUBJECT", comment: "")
     private lazy var alertController: UIAlertController = {
@@ -107,7 +108,7 @@ class SubjectListVC: UIViewController {
     }
     
     private func configureTableView() {
-        view.addSubview(self.tableView)
+//        view.addSubview(self.tableView)
         // set delegates
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -118,7 +119,7 @@ class SubjectListVC: UIViewController {
         //set constraints
 //        tableView.free()
         self.tableView.allowsMultipleSelectionDuringEditing = true
-        self.tableView.pin(to: self.view)
+//        self.tableView.pin(to: self.view)
     }
     
     private func addNotificationObserver() {
@@ -140,19 +141,9 @@ class SubjectListVC: UIViewController {
 //        tableView.setEditing(!tableView.isEditing, animated: true)
 //        sender.title = tableView.isEditing ? doneButtonText : editButtonText
 //    }
-    @objc private func deleteButtonSelector() {
-        print("transh button clicked")
-        print(selectedIndex)
+    @objc override func deleteButtonSelector() {
         viewModel.removeSubjects(at: selectedIndex)
-//        selectedIndex.removeAll(keepingCapacity: true)
-
-        let originLength = selectedIndex.count
-        for rawIndex in 0..<originLength {
-            let index = originLength - 1 - rawIndex
-            if selectedIndex[index] == true {
-                selectedIndex.remove(at: index)
-            }
-        }
+        super.deleteButtonSelector()
     }
     
     private func saveButtonAction() {
@@ -190,31 +181,30 @@ class SubjectListVC: UIViewController {
         print("reload")
         tableView.endUpdates()
     }
+    
+    override func getDataLength() -> Int {
+        return subjects.count
+    }
 }
 
-extension SubjectListVC: UITableViewDelegate, UITableViewDataSource {
+extension SubjectListVC {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        tableView.setEditing(editing, animated: animated)
+//        tableView.setEditing(editing, animated: animated)
         navigationItem.rightBarButtonItem = tableView.isEditing ? deleteButton : plusButton
-        if !isEditing {
-//            selectedIndex.removeAll(keepingCapacity: true)
-            for index in 0..<selectedIndex.count {
-                selectedIndex[index] = false
-            }
-        } else {
-            if selectedIndex.count < subjects.count {
-                for _ in 0..<(subjects.count - selectedIndex.count) {
-                    selectedIndex.append(false)
-                }
-            }
-        }
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        print("didEndDisplaying\(indexPath.row)")
+//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return numOfSections
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return subjects.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SubjectListVC.cellIdentifier) as! SubjectListCell
         let subject = subjects[indexPath.row]
         cell.setSubject(subject: subject)
@@ -224,19 +214,13 @@ extension SubjectListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     // the onclick of cell
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("select: ", indexPath.row)
-        if (tableView.isEditing) {
-//            if (!selectedIndex.contains(indexPath.row)) {
-//                selectedIndex.append(indexPath.row)
-//            }
-            selectedIndex[indexPath.row] = true
-            print(selectedIndex)
-            return
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+        if !tableView.isEditing {
+            let itemVC = ItemListVC(viewModel: viewModel, subject: subjects[indexPath.row])
+            self.navigationController?.pushViewController(itemVC, animated: true)
+            self.tableView.deselectRow(at: indexPath, animated: true)
         }
-        let itemVC = ItemListVC(viewModel: viewModel, subject: subjects[indexPath.row])
-        self.navigationController?.pushViewController(itemVC, animated: true)
-        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
 //    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -261,24 +245,20 @@ extension SubjectListVC: UITableViewDelegate, UITableViewDataSource {
 //        tableView.setEditing(true, animated: true)
 //    }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print("delect: \(indexPath.row)")
-//        selectedIndex.removeAll(where: { $0 == indexPath.row })
-        selectedIndex[indexPath.row] = false
-        print(selectedIndex)
-    }
+//    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        print("delect: \(indexPath.row)")
+////        selectedIndex.removeAll(where: { $0 == indexPath.row })
+//        selectedIndex[indexPath.row] = false
+//        print(selectedIndex)
+//    }
     
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        super.tableView(tableView, moveRowAt: sourceIndexPath, to: destinationIndexPath)
         viewModel.moveSubject(from: sourceIndexPath.row, to: destinationIndexPath.row)
-        let tempSource = selectedIndex[sourceIndexPath.row]
-        selectedIndex.remove(at: sourceIndexPath.row)
-        selectedIndex.insert(tempSource, at: destinationIndexPath.row)
-        
-        print(selectedIndex)
     }
     
 //    func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
