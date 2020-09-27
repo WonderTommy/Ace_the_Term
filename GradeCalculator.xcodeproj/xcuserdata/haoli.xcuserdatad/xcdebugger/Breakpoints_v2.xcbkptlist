@@ -14,8 +14,8 @@
             filePath = "GradeCalculator/SubjectPage/ItemListVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "addItemForSubject(name:points:fullPoints:weight:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "GradeCalculator/Model/GeneralViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "addItemForSubject(targetSubject:name:points:fullPoints:weight:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "GradeCalculator/Model/GeneralViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "addItemForSubject(targetSubject:name:points:fullPoints:weight:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "GradeCalculator/SubjectPage/ItemListVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "addItemSelector(notification:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,10 +78,58 @@
             filePath = "GradeCalculator/SubjectPage/SubjectListVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "addSubjectSelector(notification:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "32F44774-3576-48C0-8561-A80482FFA70B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradeCalculator/Utility/BottomMenu.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "listView"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "32F44774-3576-48C0-8561-A80482FFA70B - 87f800dee65fcc9a"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; __C.UIView in variable initialization expression of GradeCalculator.BottomMenu.collectionView : __C.UIView"
+                  moduleName = "GradeCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haoli/Desktop/Documents/University/Projects/GradeCalculator_NoSwiftUI/GradeCalculator/GradeCalculator/Utility/BottomMenu.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "14">
+               </Location>
+               <Location
+                  uuid = "32F44774-3576-48C0-8561-A80482FFA70B - 4962bfa4a6494bc4"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GradeCalculator.BottomMenu.collectionView.getter : __C.UIView"
+                  moduleName = "GradeCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haoli/Desktop/Documents/University/Projects/GradeCalculator_NoSwiftUI/GradeCalculator/GradeCalculator/Utility/BottomMenu.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

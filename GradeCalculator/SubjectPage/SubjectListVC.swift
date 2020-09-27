@@ -52,10 +52,10 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         })
         alert.addAction(UIAlertAction(title: saveButtonText, style: .default, handler: { (action) in
             self.saveButtonAction()
-            self.nameTextField?.text = ""
+            self.nameTextField.text = ""
         }))
         alert.addAction(UIAlertAction(title: cancelButtonText, style: .cancel, handler: { (action) in
-            self.nameTextField?.text = ""
+            self.nameTextField.text = ""
         }))
         return alert
     }()
@@ -68,13 +68,20 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonSelector))
     }()
     
-    private var nameTextField: UITextField?
+    private lazy var folderButton: UIBarButtonItem = {
+        return UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(folderButtonSelector))
+    }()
+    
+    private var nameTextField =  UITextField()
+    
+    private lazy var bottomMenuLauncher: BottomMenu = {
+        return BottomMenu(viewModel: viewModel)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavBar()
         configureTableView()
-        addNotificationObserver()
 //        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[tableView]-0-|", options: [], metrics: nil, views: Dictionary(dictionaryLiteral: ("tableView", self.tableView)))
 //        view.addConstraint(constraints[0])
 //        constraints.append(
@@ -89,6 +96,7 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         self.viewModel = viewModel
 //        self.subjects = viewModel.getSubjects()
         super.init(nibName: nil, bundle: nil)
+        self.addNotificationObserver()
     }
     
     deinit {
@@ -146,8 +154,14 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         super.deleteButtonSelector()
     }
     
+    @objc private func folderButtonSelector() {
+        print("click button clicked")
+//        present(UINavigationController(rootViewController: TermListVC(viewModel: viewModel)), animated: true, completion: nil)
+        bottomMenuLauncher.showBottomMenu()
+    }
+    
     private func saveButtonAction() {
-        let subjectTitle = nameTextField?.text! != "" ? nameTextField!.text! : defaultSubjectName
+        let subjectTitle = nameTextField.text! != "" ? nameTextField.text! : defaultSubjectName
         viewModel.addSubject(title: subjectTitle, items: nil)
         print(viewModel.getSubjects().map({$0.title}))
     }
@@ -191,7 +205,7 @@ extension SubjectListVC {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
 //        tableView.setEditing(editing, animated: animated)
-        navigationItem.rightBarButtonItem = tableView.isEditing ? deleteButton : plusButton
+        navigationItem.rightBarButtonItems = tableView.isEditing ? [deleteButton, folderButton] : [plusButton]
     }
 //    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 //        print("didEndDisplaying\(indexPath.row)")

@@ -33,10 +33,20 @@ class GeneralViewModel: ObservableObject {
     public static let deleteMultiItemsListNotificationName = NSNotification.Name(GeneralViewModel.deleteMultiItemsListKey)
     
     
+    public static let addTermListKey = "ADD_TERM_LIST_KEY"
+    public static let addTermRowKey = "ADD_TERM_ROW_KEY"
+    public static let deleteMultiTermsListKey = "DELETE_MULTI_TERMS_LIST_KEY"
+    public static let deleteMultiTermsRowsKey = "DELETE_MULTI_TERMS_ROWS_KEY"
+    
+    public static let addTermListNotificationName = NSNotification.Name(GeneralViewModel.addTermListKey)
+    public static let deleteMultiTermsListNotificationName = Notification.Name(GeneralViewModel.deleteMultiTermsListKey)
+    
+    
 //    @Published private var calculatorModel: CalculatorModel = GeneralViewModel.createCalculatorModel()
 //    @Published private var historyModel: HistoryModel = GeneralViewModel.createHistoryModel()
 //    @Published private var settingModel: SettingModel = GeneralViewModel.createSettingModel()
     private var calculatorModel: CalculatorModel = GeneralViewModel.createCalculatorModel()
+    private var termModel: TermModel = GeneralViewModel.createTermModel()
     private var historyModel: HistoryModel = GeneralViewModel.createHistoryModel()
     private var settingModel: SettingModel = GeneralViewModel.createSettingModel()
     
@@ -44,6 +54,10 @@ class GeneralViewModel: ObservableObject {
     // MARK - Calculator Model
     private static func createCalculatorModel() -> CalculatorModel {
         return CalculatorModel()
+    }
+    
+    private static func createTermModel() -> TermModel {
+        return TermModel()
     }
     
     private static func createHistoryModel() -> HistoryModel {
@@ -134,6 +148,24 @@ class GeneralViewModel: ObservableObject {
     
     public func moveItemForSubject(targetSubject: Subject, from source: Int, to destination: Int) {
         calculatorModel.moveItemForSubject(targetSubject: targetSubject, from: source, to: destination)
+    }
+    // MARK - Term Model interface
+    public func getTerms() -> Array<Term> {
+        return termModel.terms
+    }
+    
+    public func addTerm(title: String) {
+        termModel.addTerm(title: title, subjects: nil)
+        NotificationCenter.default.post(name: GeneralViewModel.addTermListNotificationName, object: nil, userInfo: [GeneralViewModel.addTermRowKey: termModel.terms.count - 1])
+    }
+    
+    public func removeTerms(at spots: [Bool]) {
+        termModel.removeTerms(at: spots)
+        NotificationCenter.default.post(name: GeneralViewModel.deleteMultiTermsListNotificationName, object: nil, userInfo: [GeneralViewModel.deleteMultiTermsRowsKey: spots])
+    }
+    
+    public func moveTerm(from source: Int, to destination: Int) {
+        termModel.moveTerm(from: source, to: destination)
     }
     
     // MARK - History Model Interface

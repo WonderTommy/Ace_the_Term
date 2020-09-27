@@ -56,7 +56,6 @@ class ItemListVC: MultiSelectAndMoveTableViewController {
         view.backgroundColor = .white
         setNavBar()
         configureTableView()
-        addNotificationObserver()
     }
     
     // MARK - Initializers
@@ -64,6 +63,7 @@ class ItemListVC: MultiSelectAndMoveTableViewController {
         self.viewModel = viewModel
         self.initSubject = subject
         super.init(nibName: nil, bundle: nil)
+        self.addNotificationObserver()
     }
     
     required init?(coder: NSCoder) {
@@ -108,6 +108,7 @@ class ItemListVC: MultiSelectAndMoveTableViewController {
     // MARK - selectors
     @objc private func calculationButtonSelector() {
         print("calculation button clicked")
+        navigationController?.pushViewController(ResultVC(subject: subject), animated: true)
     }
     
     @objc private func addButtonSelector() {

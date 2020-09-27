@@ -36,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [
             createSubjectListNC(viewModel: viewModel),
+            createTermListNC(viewModel: viewModel),
             createSecondNC(),
             createThirdNC()
         ]
@@ -55,12 +56,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return navController
     }
     
+    func createTermListNC(viewModel: GeneralViewModel) -> UINavigationController {
+        let tabBarItemTitle = NSLocalizedString("TAB_LABEL_TERMS", comment: "")
+        let tabBarItemImage = UIImage(systemName: "folder")
+        let tabBarItemTag = 1
+        let termListVC = TermListVC(viewModel: viewModel)
+        termListVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: tabBarItemTag)
+        let navController = UINavigationController(rootViewController: termListVC)
+        navController.navigationBar.prefersLargeTitles = true
+        return navController
+    }
+    
     func createSecondNC() -> UINavigationController {
         let tabBarItemTitle = NSLocalizedString("TAB_LABEL_HISTORY", comment: "")
         let tabBarItemImage = UIImage(systemName: "clock.fill")
+        let tabBarItemTag = 2
         let secondVC = SecondVC()
         secondVC.title = "Second View Controller"
-        secondVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: 1)
+        secondVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: tabBarItemTag)
         
         return UINavigationController(rootViewController: secondVC)
     }
@@ -68,9 +81,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createThirdNC() -> UINavigationController {
         let tabBarItemTitle = NSLocalizedString("TAB_LABEL_SETTING", comment: "")
         let tabBarItemImage = UIImage(systemName: "gear")
+        let tabBarItemTag = 3
         let thirdVC = ThirdVC()
         thirdVC.title = "Third View Controller"
-        thirdVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: 2)
+        thirdVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: tabBarItemTag)
         
         return UINavigationController(rootViewController: thirdVC)
     }

@@ -9,6 +9,10 @@
 import UIKit
 
 open class MultiSelectAndMoveTableViewController: UITableViewController {
+    override open func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setEditing(false, animated: true)
+    }
     
 //    private var dataLength: Int
     lazy var selectedIndex: [Bool] = {

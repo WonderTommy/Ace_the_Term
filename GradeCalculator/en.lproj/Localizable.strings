@@ -8,6 +8,7 @@
 "HELLO_WORLD" = "Hello, World!";
 "ALERT_MESSAGE_SAVE_RESULT_TO_HISTORY"= "Would you like to save the result to history page?";
 "ALERT_TITLE_NEW_SUBJECT" = "Add Subject";
+"ALERT_TITLE_NEW_TERM" = "New Term";
 "BUTTON_TEXT_CALCULATE" = "Calculate";
 "BUTTON_TEXT_CANCEL" = "Cancel";
 "BUTTON_TEXT_DONE" = "Done";
@@ -23,6 +24,7 @@
 "PAGE_TITLE_CALCULATION" = "Calculation";
 "PAGE_TITLE_RESULT" = "Result";
 "PAGE_TITLE_SUBJECTS" = "Subjects";
+"PAGE_TITLE_TERMS" = "Terms";
 "RESULT_ITEM_LABEL_TOTAL" = "Total";
 "RESULT_ITEM_LABEL_HIGHEST_POSSITLE" = "Highest Possible";
 "RESULT_ITEM_LABEL_POINTS_LOST" = "Percentage Lost";
@@ -32,6 +34,7 @@
 "TAB_LABEL_CALCULATION" = "Calculation";
 "TAB_LABEL_HISTORY" = "History";
 "TAB_LABEL_SETTING" = "Setting";
+"TAB_LABEL_TERMS" = "Term";
 "TEXT_FIELD_HINT_NAME" = "Name";
 "TEXT_FIELD_HINT_FULL_POINTS" = "Full Points";
 "TEXT_FIELD_HINT_POINTS" = "Points";

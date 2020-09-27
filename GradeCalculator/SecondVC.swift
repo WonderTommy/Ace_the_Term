@@ -12,6 +12,7 @@ class SecondVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .red
 //        title = "second view Controller"
         // Do any additional setup after loading the view.
     }
