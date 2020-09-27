@@ -31,6 +31,7 @@
 "RESULT_MESSAGE_UNDER" = "現在の合計パーセンテージは100%以下";
 "RESULT_MESSAGE_OVER" = "現在の合計パーセンテージは100%以上";
 "RESULT_MESSAGE_OK" = "現在の合計パーセンテージは 100%";
+"SEGMENT_TITLE_CHOOSE_FOLDER" = "科目を保存するファイルを選んでください";
 "TAB_LABEL_CALCULATION" = "計算";
 "TAB_LABEL_HISTORY" = "履歴";
 "TAB_LABEL_SETTING" = "設定";

@@ -31,6 +31,7 @@
 "RESULT_MESSAGE_UNDER" = "The total percentage is under 100%";
 "RESULT_MESSAGE_OVER" = "The total percentage is over 100%";
 "RESULT_MESSAGE_OK" = "The total percentage is 100%";
+"SEGMENT_TITLE_CHOOSE_FOLDER" = "Please choose folder(s) to save subjects";
 "TAB_LABEL_CALCULATION" = "Calculation";
 "TAB_LABEL_HISTORY" = "History";
 "TAB_LABEL_SETTING" = "Setting";

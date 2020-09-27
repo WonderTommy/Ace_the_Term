@@ -40,6 +40,7 @@
 		3AC5B3BE2517D2120028C72C /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5B3BD2517D2120028C72C /* Term.swift */; };
 		3AC5B3C02517E13F0028C72C /* TermListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5B3BF2517E13E0028C72C /* TermListCell.swift */; };
 		3AC5B3C2251F9D9F0028C72C /* BottomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5B3C1251F9D9E0028C72C /* BottomMenu.swift */; };
+		3AC5B3C62520E71C0028C72C /* TermListSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5B3C52520E71C0028C72C /* TermListSegment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		3AC5B3BD2517D2120028C72C /* Term.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = "<group>"; };
 		3AC5B3BF2517E13E0028C72C /* TermListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermListCell.swift; sourceTree = "<group>"; };
 		3AC5B3C1251F9D9E0028C72C /* BottomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenu.swift; sourceTree = "<group>"; };
+		3AC5B3C52520E71C0028C72C /* TermListSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermListSegment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				3AC5B39D250564C40028C72C /* ItemListCell.swift */,
 				3AC5B39F2506AD980028C72C /* ItemDetailVC.swift */,
 				3AC5B3B52516CD8D0028C72C /* ResultVC.swift */,
+				3AC5B3C52520E71C0028C72C /* TermListSegment.swift */,
 			);
 			path = SubjectPage;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				3AC5B3A4250745CE0028C72C /* TestTableVC.swift in Sources */,
 				3AC5B37C24FC11150028C72C /* SecondVC.swift in Sources */,
 				3AC5B3AD250DC0B80028C72C /* GeneralViewModel.swift in Sources */,
+				3AC5B3C62520E71C0028C72C /* TermListSegment.swift in Sources */,
 				3AC5B3C2251F9D9F0028C72C /* BottomMenu.swift in Sources */,
 				3AC5B36A24FBFF1D0028C72C /* GradeCalculator.xcdatamodeld in Sources */,
 				3AC5B37E24FC11230028C72C /* ThirdVC.swift in Sources */,

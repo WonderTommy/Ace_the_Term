@@ -31,6 +31,7 @@
 "RESULT_MESSAGE_UNDER" = "百分比总和低于100%";
 "RESULT_MESSAGE_OVER" = "百分比总和高于100%";
 "RESULT_MESSAGE_OK" = "百分比总和为100%";
+"SEGMENT_TITLE_CHOOSE_FOLDER" = "请选择保存选中科目的文件夹";
 "TAB_LABEL_CALCULATION" = "计算";
 "TAB_LABEL_HISTORY" = "历史";
 "TAB_LABEL_SETTING" = "设置";

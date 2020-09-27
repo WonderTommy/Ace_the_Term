@@ -36,6 +36,8 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     
     private let defaultSubjectName = NSLocalizedString("TEXT_FIELD_LABEL_UNKNOWN", comment: "")
     
+    private let segmentTitleText = NSLocalizedString("SEGMENT_TITLE_CHOOSE_FOLDER", comment: "")
+    
 //    private lazy var selectedIndex: [Bool] = {
 //        var temp: [Bool] = []
 //        for _ in self.subjects {
@@ -75,7 +77,37 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     private var nameTextField =  UITextField()
     
     private lazy var bottomMenuLauncher: BottomMenu = {
-        return BottomMenu(viewModel: viewModel)
+        let segmentTitle = UILabel()
+        segmentTitle.text = segmentTitleText
+        
+        let termListSegment = TermListSegment(frame: CGRect(x: 0, y: 0, width: 1000, height: 200), style: .plain, viewModel: self.viewModel)
+        
+        let segmentSaveButton = UIButton()
+        segmentSaveButton.setTitle(saveButtonText, for: .normal)
+        segmentSaveButton.backgroundColor = UIColor.systemGreen
+        segmentSaveButton.layer.cornerRadius = 4
+        segmentSaveButton.addTarget(self, action: #selector(segmentSaveButtonSelector), for: .touchUpInside)
+        
+        let contentView = UIStackView()
+        contentView.axis = .vertical
+        contentView.distribution = .equalCentering
+        contentView.alignment = .center
+        contentView.spacing = 8
+        
+        contentView.addArrangedSubview(segmentTitle)
+        segmentTitle.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -32).isActive = true
+        
+        contentView.addArrangedSubview(termListSegment)
+        termListSegment.configCell()
+        termListSegment.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        termListSegment.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        termListSegment.setEditing(true, animated: false)
+        
+        contentView.addArrangedSubview(segmentSaveButton)
+        segmentSaveButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.85).isActive = true
+        segmentSaveButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        return BottomMenu(content: contentView, menuHeight: 352, paddingTop: 16, paddingBottom: -36, paddingLeft: 0, paddingRight: 0)
     }()
     
     override func viewDidLoad() {
@@ -158,6 +190,10 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         print("click button clicked")
 //        present(UINavigationController(rootViewController: TermListVC(viewModel: viewModel)), animated: true, completion: nil)
         bottomMenuLauncher.showBottomMenu()
+    }
+    
+    @objc private func segmentSaveButtonSelector() {
+        bottomMenuLauncher.dismissBottomMenu()
     }
     
     private func saveButtonAction() {
