@@ -178,6 +178,7 @@ extension TermListVC {
         super.tableView(tableView, didSelectRowAt: indexPath)
         if !tableView.isEditing {
             print("push the view")
+            print(viewModel.getTerms()[indexPath.row].subjects.map({ $0.title }))
             self.tableView.deselectRow(at: indexPath, animated: true)
         }
     }

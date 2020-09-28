@@ -6,7 +6,10 @@
   Copyright © 2020 Hao Li. All rights reserved.
 */
 "HELLO_WORLD" = "今日は！";
+"ALERT_BUTTON_OK" = "分かりました";
 "ALERT_MESSAGE_SAVE_RESULT_TO_HISTORY"= "計算結果を履歴ページに保存しますか？";
+"ALERT_MESSAGE_SELECT_AT_LEAST_ONE_FOLDER" = "保存にしたいファイルを選んでください";
+"ALERT_MESSAGE_SELECT_AT_LEAST_ONE_SUBJECT" = "保存したい科目を選んでください";
 "ALERT_TITLE_NEW_SUBJECT" = "新規科目";
 "ALERT_TITLE_NEW_TERM" = "新規学期";
 "BUTTON_TEXT_CALCULATE" = "計算";

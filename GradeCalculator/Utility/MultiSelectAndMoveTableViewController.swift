@@ -99,5 +99,16 @@ open class MultiSelectAndMoveTableViewController: UITableViewController {
         
         print(selectedIndex)
     }
+    
+    public func anyRowSelected() -> Bool {
+        var result = false
+        for element in selectedIndex {
+            if element == true {
+                result = true
+                break
+            }
+        }
+        return result
+    }
 
 }

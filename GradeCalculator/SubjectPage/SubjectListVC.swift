@@ -46,9 +46,12 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
 //        return temp
 //    }()
     
-    private let alertTitle = NSLocalizedString("ALERT_TITLE_NEW_SUBJECT", comment: "")
-    private lazy var alertController: UIAlertController = {
-        let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
+    private let newSubjectAlertTitle = NSLocalizedString("ALERT_TITLE_NEW_SUBJECT", comment: "")
+    private let selectSubjectAlertMessage = NSLocalizedString("ALERT_MESSAGE_SELECT_AT_LEAST_ONE_SUBJECT", comment: "")
+    private let selectTermAlertMessage = NSLocalizedString("ALERT_MESSAGE_SELECT_AT_LEAST_ONE_FOLDER", comment: "")
+    private let alertButtonTextOK = NSLocalizedString("ALERT_BUTTON_OK", comment: "")
+    private lazy var newSubjectAlertController: UIAlertController = {
+        let alert = UIAlertController(title: newSubjectAlertTitle, message: nil, preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textField) in
             self.nameTextField = textField
         })
@@ -58,6 +61,22 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         }))
         alert.addAction(UIAlertAction(title: cancelButtonText, style: .cancel, handler: { (action) in
             self.nameTextField.text = ""
+        }))
+        return alert
+    }()
+    
+    private lazy var selectSubjectAlertController: UIAlertController = {
+        let alert = UIAlertController(title: nil, message: selectSubjectAlertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: alertButtonTextOK, style: .cancel, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        return alert
+    }()
+    
+    private lazy var selectTermAlertController: UIAlertController = {
+        let alert = UIAlertController(title: nil, message: selectTermAlertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: alertButtonTextOK, style: .cancel, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
         }))
         return alert
     }()
@@ -76,18 +95,35 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     
     private var nameTextField =  UITextField()
     
+    private lazy var segmentTitle: UILabel = {
+        let label = UILabel()
+        label.text = segmentTitleText
+        return label
+    }()
+    
+    private lazy var termListSegment: TermListSegment = {
+        return TermListSegment(frame: CGRect(x: 0, y: 0, width: 1000, height: 200), style: .plain, viewModel: self.viewModel)
+    }()
+    
+    private lazy var segmentCancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(cancelButtonText, for: .normal)
+        button.backgroundColor = UIColor.systemRed
+        button.layer.cornerRadius = 4
+        button.addTarget(self, action: #selector(segmentCancelButtonSelector), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var segmentSaveButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(saveButtonText, for: .normal)
+        button.backgroundColor = UIColor.systemGreen
+        button.layer.cornerRadius = 4
+        button.addTarget(self, action: #selector(segmentSaveButtonSelector), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var bottomMenuLauncher: BottomMenu = {
-        let segmentTitle = UILabel()
-        segmentTitle.text = segmentTitleText
-        
-        let termListSegment = TermListSegment(frame: CGRect(x: 0, y: 0, width: 1000, height: 200), style: .plain, viewModel: self.viewModel)
-        
-        let segmentSaveButton = UIButton()
-        segmentSaveButton.setTitle(saveButtonText, for: .normal)
-        segmentSaveButton.backgroundColor = UIColor.systemGreen
-        segmentSaveButton.layer.cornerRadius = 4
-        segmentSaveButton.addTarget(self, action: #selector(segmentSaveButtonSelector), for: .touchUpInside)
-        
         let contentView = UIStackView()
         contentView.axis = .vertical
         contentView.distribution = .equalCentering
@@ -103,11 +139,15 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         termListSegment.heightAnchor.constraint(equalToConstant: 200).isActive = true
         termListSegment.setEditing(true, animated: false)
         
+        contentView.addArrangedSubview(segmentCancelButton)
+        segmentCancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.85).isActive = true
+        segmentCancelButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
         contentView.addArrangedSubview(segmentSaveButton)
         segmentSaveButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.85).isActive = true
         segmentSaveButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        return BottomMenu(content: contentView, menuHeight: 352, paddingTop: 16, paddingBottom: -36, paddingLeft: 0, paddingRight: 0)
+        return BottomMenu(content: contentView, menuHeight: 400, paddingTop: 16, paddingBottom: -36, paddingLeft: 0, paddingRight: 0, dismissOnClickOff: false)
     }()
     
     override func viewDidLoad() {
@@ -174,7 +214,7 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     
     // MARK - button actions
     @objc private func addButtonSelector() {
-        present(alertController, animated: true, completion: nil)
+        present(newSubjectAlertController, animated: true, completion: nil)
     }
     
 //    @objc private func editButtonSelector(_ sender: UIBarButtonItem) {
@@ -189,11 +229,41 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     @objc private func folderButtonSelector() {
         print("click button clicked")
 //        present(UINavigationController(rootViewController: TermListVC(viewModel: viewModel)), animated: true, completion: nil)
-        bottomMenuLauncher.showBottomMenu()
+        if anyRowSelected() {
+            bottomMenuLauncher.showBottomMenu()
+        } else {
+            present(selectSubjectAlertController, animated: true, completion: nil)
+        }
     }
     
     @objc private func segmentSaveButtonSelector() {
+        if termListSegment.anyRowSelected() {
+            let subjects = viewModel.getSubjects()
+            var selectedSubjects: [Subject] = []
+            for index in 0..<selectedIndex.count {
+                if selectedIndex[index] == true {
+                    selectedSubjects.append(subjects[index])
+                }
+            }
+            
+            let selectedTermIndex = termListSegment.getSelectedIndex()
+            let terms = viewModel.getTerms()
+            for index in selectedTermIndex {
+                viewModel.addSubjectsForTerm(targetTerm: terms[index], subjects: selectedSubjects)
+            }
+            
+            termListSegment.clearSelectedIndex()
+            bottomMenuLauncher.dismissBottomMenu()
+            setEditing(false, animated: true)
+        } else {
+            present(selectTermAlertController, animated: true, completion: nil)
+        }
+    }
+    
+    @objc private func segmentCancelButtonSelector() {
+        termListSegment.clearSelectedIndex()
         bottomMenuLauncher.dismissBottomMenu()
+        setEditing(false, animated: true)
     }
     
     private func saveButtonAction() {

@@ -29,10 +29,29 @@ struct Term: Identifiable, Equatable {
     }
     
     mutating public func addSubjects(newSubjects: [Subject]) {
-        subjects.append(contentsOf: newSubjects)
+        for newSubject in newSubjects {
+            let index = subjectAlreadyExistAt(targetSubject: newSubject)
+            print("duplicate at: ", index)
+            if index >= 0 {
+                subjects[index] = newSubject
+            } else {
+                subjects.append(newSubject)
+            }
+        }
     }
     
     mutating public func replaceBySubjects(newSubjects: [Subject]) {
         self.subjects = newSubjects
+    }
+    
+    private func subjectAlreadyExistAt(targetSubject: Subject) -> Int {
+        var result = -1
+        for index in 0..<subjects.count {
+            if subjects[index].title == targetSubject.title {
+                result = index
+                break
+            }
+        }
+        return result
     }
 }

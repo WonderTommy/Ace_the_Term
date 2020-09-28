@@ -6,7 +6,10 @@
   Copyright © 2020 Hao Li. All rights reserved.
 */
 "HELLO_WORLD" = "Hello, World!";
+"ALERT_BUTTON_OK" = "OK";
 "ALERT_MESSAGE_SAVE_RESULT_TO_HISTORY"= "Would you like to save the result to history page?";
+"ALERT_MESSAGE_SELECT_AT_LEAST_ONE_FOLDER" = "Please select at least one folder to save to";
+"ALERT_MESSAGE_SELECT_AT_LEAST_ONE_SUBJECT" = "Please select at least one subject to save";
 "ALERT_TITLE_NEW_SUBJECT" = "Add Subject";
 "ALERT_TITLE_NEW_TERM" = "New Term";
 "BUTTON_TEXT_CALCULATE" = "Calculate";

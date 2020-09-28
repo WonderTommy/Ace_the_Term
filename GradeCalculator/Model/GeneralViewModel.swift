@@ -168,6 +168,10 @@ class GeneralViewModel: ObservableObject {
         termModel.moveTerm(from: source, to: destination)
     }
     
+    public func addSubjectsForTerm(targetTerm: Term, subjects: [Subject]) {
+        termModel.addSubjectsForTerm(targetTerm: targetTerm, subjects: subjects)
+    }
+    
     // MARK - History Model Interface
     public func addHistoryRecord(subject: Subject) {
         self.historyModel.addRecord(subject: subject)

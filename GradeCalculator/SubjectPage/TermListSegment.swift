@@ -16,6 +16,7 @@ class TermListSegment: UITableView {
             return viewModel.getTerms()
         }
     }
+    
     init(frame: CGRect, style: UITableView.Style, viewModel: GeneralViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame, style: style)
@@ -29,12 +30,30 @@ class TermListSegment: UITableView {
         self.delegate = self
         self.dataSource = self
         //set row height
-        self.rowHeight = 48
+        self.rowHeight = 44
         //register cells
         self.register(TermListCell.self, forCellReuseIdentifier: TermListSegment.cellIdentifier)
         //set constraints
     //        tableView.free()
         self.allowsMultipleSelectionDuringEditing = true
+    }
+    
+    public func getSelectedIndex() -> [Int] {
+        var selectedIndex: [Int] = []
+        for indexPath in indexPathsForSelectedRows ?? [] {
+            selectedIndex.append(indexPath.row)
+        }
+        return selectedIndex
+    }
+    
+    public func clearSelectedIndex() {
+        for indexPath in indexPathsForSelectedRows ?? [] {
+            deselectRow(at: indexPath, animated: false)
+        }
+    }
+    
+    public func anyRowSelected() -> Bool {
+        return indexPathsForSelectedRows != nil
     }
 }
 
@@ -51,6 +70,4 @@ extension TermListSegment: UITableViewDelegate, UITableViewDataSource {
         print(term.title)
         return cell
     }
-    
-    
 }

@@ -15,6 +15,7 @@ class BottomMenu: NSObject {
     private var paddingLeft: CGFloat
     private var paddingRight: CGFloat
     private var menuHeight: CGFloat
+    private var dismissOnClickOff: Bool
     
     private let shadowView = UIView()
     
@@ -24,13 +25,14 @@ class BottomMenu: NSObject {
         return view
     }()
     
-    init(content: UIView, menuHeight: Int, paddingTop: Int, paddingBottom: Int, paddingLeft: Int, paddingRight: Int) {
+    init(content: UIView, menuHeight: Int, paddingTop: Int, paddingBottom: Int, paddingLeft: Int, paddingRight: Int, dismissOnClickOff: Bool) {
         self.content = content
         self.menuHeight = CGFloat(menuHeight)
         self.paddingTop = CGFloat(paddingTop)
         self.paddingBottom = CGFloat(paddingBottom)
         self.paddingLeft = CGFloat(paddingLeft)
         self.paddingRight = CGFloat(paddingRight)
+        self.dismissOnClickOff = dismissOnClickOff
         super.init()
         setUpLayout()
         addContentView()
@@ -40,7 +42,9 @@ class BottomMenu: NSObject {
         if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
             shadowView.backgroundColor = UIColor(white: 0, alpha: 0.5)
             
-            shadowView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissBottomMenu)))
+            if self.dismissOnClickOff {
+                shadowView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissBottomMenu)))
+            }
             
             window.addSubview(shadowView)
             shadowView.frame = window.frame
