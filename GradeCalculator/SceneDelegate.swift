@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.viewControllers = [
             createSubjectListNC(viewModel: viewModel),
             createTermListNC(viewModel: viewModel),
-            createSecondNC(),
+            createHistoryListNC(viewModel: viewModel),
             createThirdNC()
         ]
         
@@ -67,15 +67,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return navController
     }
     
-    func createSecondNC() -> UINavigationController {
+    func createHistoryListNC(viewModel: GeneralViewModel) -> UINavigationController {
         let tabBarItemTitle = NSLocalizedString("TAB_LABEL_HISTORY", comment: "")
         let tabBarItemImage = UIImage(systemName: "clock.fill")
         let tabBarItemTag = 2
-        let secondVC = SecondVC()
-        secondVC.title = "Second View Controller"
-        secondVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: tabBarItemTag)
-        
-        return UINavigationController(rootViewController: secondVC)
+        let historyListVC = HistoryListVC(viewModel: viewModel)
+        historyListVC.tabBarItem = UITabBarItem(title: tabBarItemTitle, image: tabBarItemImage, tag: tabBarItemTag)
+        let navController = UINavigationController(rootViewController: historyListVC)
+        navController.navigationBar.prefersLargeTitles = true
+        return navController
     }
     
     func createThirdNC() -> UINavigationController {

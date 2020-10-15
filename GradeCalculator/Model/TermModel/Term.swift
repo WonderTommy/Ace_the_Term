@@ -18,6 +18,18 @@ struct Term: Identifiable, Equatable {
     var title: String
     var subjects: [Subject]
     
+    var averageScore: String {
+        get {
+            let scores = subjects.map({ CalculationUtility.summationScore(items: $0.items) })
+            var result = "0"
+            if scores.count != 0 {
+                let rounded = round((scores.reduce(0) { $0 + $1 }) / Double(scores.count) * 10000) / 10000
+                result = "\(String(rounded))"
+            }
+            return result
+        }
+    }
+    
     init(id: Int, title: String, subjects: Array<Subject>) {
         self.id = id
         self.title = title

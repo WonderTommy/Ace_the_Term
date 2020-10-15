@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 struct SettingModel {
-    var warningColor = UIColor.red
-    var remainderColor = UIColor.yellow
-    var okColor = UIColor.green
+    var warningColor = UIColor.systemRed
+    var remainderColor = UIColor.systemYellow
+    var okColor = UIColor.systemGreen
 }

@@ -18,6 +18,28 @@ struct Subject: Identifiable, Equatable {
     var items: [Item]// Array<Item>
     private var lastItemId: Int = 0
     
+    public var totalScore: String {
+        get {
+            var result = "0"
+            if items.count != 0 {
+                let rounded = round(items.reduce(0) { $0 + $1.trueScore } * 10000) / 10000
+                result = String(rounded)
+            }
+            return result
+        }
+    }
+    
+    public var totalWeight: String {
+        get {
+            var result = "0%"
+            if items.count != 0 {
+                let rounded = round(items.reduce(0) { $0 + $1.weight } * 10000) / 10000
+                result = String(rounded)
+            }
+            return result
+        }
+    }
+    
     init(id: Int, title: String, items: Array<Item>?) {
         self.id = id
         self.title = title

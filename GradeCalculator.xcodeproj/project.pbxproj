@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A38CD52252A550A0008078B /* TermSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38CD51252A550A0008078B /* TermSummaryVC.swift */; };
+		3A38CD54252C2B570008078B /* TermSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38CD53252C2B570008078B /* TermSummaryCell.swift */; };
+		3A38CD57252CD11E0008078B /* HistoryListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38CD56252CD11E0008078B /* HistoryListVC.swift */; };
+		3A38CD59252CD5230008078B /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38CD58252CD5230008078B /* HistoryListCell.swift */; };
+		3A38CD5B252EDB720008078B /* HistoryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38CD5A252EDB720008078B /* HistoryDetailVC.swift */; };
+		3A38CD5D252FD4FD0008078B /* HistoryDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38CD5C252FD4FD0008078B /* HistoryDetailCell.swift */; };
 		3AC5B36024FBFF1C0028C72C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5B35F24FBFF1C0028C72C /* AppDelegate.swift */; };
 		3AC5B36224FBFF1C0028C72C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5B36124FBFF1C0028C72C /* SceneDelegate.swift */; };
 		3AC5B36424FBFF1C0028C72C /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5B36324FBFF1C0028C72C /* FirstViewController.swift */; };
@@ -44,6 +50,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A38CD51252A550A0008078B /* TermSummaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermSummaryVC.swift; sourceTree = "<group>"; };
+		3A38CD53252C2B570008078B /* TermSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermSummaryCell.swift; sourceTree = "<group>"; };
+		3A38CD56252CD11E0008078B /* HistoryListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListVC.swift; sourceTree = "<group>"; };
+		3A38CD58252CD5230008078B /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
+		3A38CD5A252EDB720008078B /* HistoryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailVC.swift; sourceTree = "<group>"; };
+		3A38CD5C252FD4FD0008078B /* HistoryDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailCell.swift; sourceTree = "<group>"; };
 		3AC5B35C24FBFF1C0028C72C /* GradeCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GradeCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AC5B35F24FBFF1C0028C72C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AC5B36124FBFF1C0028C72C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +108,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A38CD55252CD0C90008078B /* HistoryPage */ = {
+			isa = PBXGroup;
+			children = (
+				3A38CD56252CD11E0008078B /* HistoryListVC.swift */,
+				3A38CD58252CD5230008078B /* HistoryListCell.swift */,
+				3A38CD5A252EDB720008078B /* HistoryDetailVC.swift */,
+				3A38CD5C252FD4FD0008078B /* HistoryDetailCell.swift */,
+			);
+			path = HistoryPage;
+			sourceTree = "<group>";
+		};
 		3AC5B35324FBFF1C0028C72C = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +142,7 @@
 				3AC5B38C24FC3BA70028C72C /* Model */,
 				3AC5B38B24FC2C6F0028C72C /* SubjectPage */,
 				3AC5B3B72517C2570028C72C /* TermPage */,
+				3A38CD55252CD0C90008078B /* HistoryPage */,
 				3AC5B37824FC10D70028C72C /* TestVC */,
 				3AC5B35F24FBFF1C0028C72C /* AppDelegate.swift */,
 				3AC5B36124FBFF1C0028C72C /* SceneDelegate.swift */,
@@ -194,8 +218,8 @@
 		3AC5B3A8250DC0B80028C72C /* HistoryModel */ = {
 			isa = PBXGroup;
 			children = (
-				3AC5B3A9250DC0B80028C72C /* HistoryModel.swift */,
 				3AC5B3AA250DC0B80028C72C /* HistoryItem.swift */,
+				3AC5B3A9250DC0B80028C72C /* HistoryModel.swift */,
 			);
 			path = HistoryModel;
 			sourceTree = "<group>";
@@ -213,6 +237,8 @@
 			children = (
 				3AC5B3B82517C2880028C72C /* TermListVC.swift */,
 				3AC5B3BF2517E13E0028C72C /* TermListCell.swift */,
+				3A38CD51252A550A0008078B /* TermSummaryVC.swift */,
+				3A38CD53252C2B570008078B /* TermSummaryCell.swift */,
 			);
 			path = TermPage;
 			sourceTree = "<group>";
@@ -311,8 +337,10 @@
 				3AC5B3C02517E13F0028C72C /* TermListCell.swift in Sources */,
 				3AC5B3A4250745CE0028C72C /* TestTableVC.swift in Sources */,
 				3AC5B37C24FC11150028C72C /* SecondVC.swift in Sources */,
+				3A38CD59252CD5230008078B /* HistoryListCell.swift in Sources */,
 				3AC5B3AD250DC0B80028C72C /* GeneralViewModel.swift in Sources */,
 				3AC5B3C62520E71C0028C72C /* TermListSegment.swift in Sources */,
+				3A38CD52252A550A0008078B /* TermSummaryVC.swift in Sources */,
 				3AC5B3C2251F9D9F0028C72C /* BottomMenu.swift in Sources */,
 				3AC5B36A24FBFF1D0028C72C /* GradeCalculator.xcdatamodeld in Sources */,
 				3AC5B37E24FC11230028C72C /* ThirdVC.swift in Sources */,
@@ -321,8 +349,11 @@
 				3AC5B39224FC3BC10028C72C /* Subject.swift in Sources */,
 				3AC5B3B92517C2890028C72C /* TermListVC.swift in Sources */,
 				3AC5B39324FC3BC10028C72C /* CalculatorModel.swift in Sources */,
+				3A38CD5D252FD4FD0008078B /* HistoryDetailCell.swift in Sources */,
 				3AC5B39824FC45EF0028C72C /* UIViewExtension.swift in Sources */,
+				3A38CD54252C2B570008078B /* TermSummaryCell.swift in Sources */,
 				3AC5B36024FBFF1C0028C72C /* AppDelegate.swift in Sources */,
+				3A38CD5B252EDB720008078B /* HistoryDetailVC.swift in Sources */,
 				3AC5B3B42513252F0028C72C /* MultiSelectAndMoveTableViewController.swift in Sources */,
 				3AC5B3BC2517D1940028C72C /* TermModel.swift in Sources */,
 				3AC5B37724FC0AF50028C72C /* SecondViewController.swift in Sources */,
@@ -331,6 +362,7 @@
 				3AC5B3BE2517D2120028C72C /* Term.swift in Sources */,
 				3AC5B36224FBFF1C0028C72C /* SceneDelegate.swift in Sources */,
 				3AC5B3B0250DC0B80028C72C /* SettingModel.swift in Sources */,
+				3A38CD57252CD11E0008078B /* HistoryListVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

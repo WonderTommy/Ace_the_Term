@@ -9,6 +9,36 @@
 import UIKit
 
 open class MultiSelectAndMoveTableViewController: UITableViewController {
+    private let selectItemRemainder = NSLocalizedString("ALERT_MESSAGE_SELECT_AT_LEAST_ONE_ITEM_TO_DELETE", comment: "")
+    private let confirmDeleteAlert = NSLocalizedString("ALERT_MESSAGE_CONFIRM_DELETE", comment: "")
+    private let cancelButtonText = NSLocalizedString("BUTTON_TEXT_CANCEL", comment: "")
+    private let confirmButtonText = NSLocalizedString("BUTTON_TEXT_CONFIRM", comment: "")
+    private let okButtonText = NSLocalizedString("ALERT_BUTTON_OK", comment: "")
+    
+    lazy var trashButton: UIBarButtonItem = {
+        return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(presentConfirmDeleteAlert))
+    }()
+    
+    lazy var selectItemRemainderAlertController: UIAlertController = {
+        let alert = UIAlertController(title: nil, message: selectItemRemainder, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: okButtonText, style: .default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        return alert
+    }()
+    
+    lazy var confirmDeleteAlertController: UIAlertController = {
+        let alert = UIAlertController(title: nil, message: confirmDeleteAlert, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: confirmButtonText, style: .default, handler: { (action) in
+            self.deleteButtonSelector()
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: cancelButtonText, style: .cancel, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        return alert
+    }()
+    
     override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setEditing(false, animated: true)
@@ -53,18 +83,28 @@ open class MultiSelectAndMoveTableViewController: UITableViewController {
     // to take advantage of this class, this method must be called as super in the sub-class
     // call the super at the end of the overriding method
     @objc func deleteButtonSelector() {
-            print("transh button clicked")
-            print(selectedIndex)
-    //        selectedIndex.removeAll(keepingCapacity: true)
+        print("transh button clicked")
+        print(selectedIndex)
+//        selectedIndex.removeAll(keepingCapacity: true)
 
-            let originLength = selectedIndex.count
-            for rawIndex in 0..<originLength {
-                let index = originLength - 1 - rawIndex
-                if selectedIndex[index] == true {
-                    selectedIndex.remove(at: index)
-                }
+        let originLength = selectedIndex.count
+        for rawIndex in 0..<originLength {
+            let index = originLength - 1 - rawIndex
+            if selectedIndex[index] == true {
+                selectedIndex.remove(at: index)
             }
         }
+    }
+    
+    @objc func presentConfirmDeleteAlert() {
+        for value in selectedIndex {
+            if value == true {
+                present(confirmDeleteAlertController, animated: true, completion: nil)
+                return
+            }
+        }
+        present(selectItemRemainderAlertController, animated: true, completion: nil)
+    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,8 +127,10 @@ open class MultiSelectAndMoveTableViewController: UITableViewController {
     open override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         print("delect: \(indexPath.row)")
 //        selectedIndex.removeAll(where: { $0 == indexPath.row })
-        selectedIndex[indexPath.row] = false
-        print(selectedIndex)
+        if tableView.isEditing {
+            selectedIndex[indexPath.row] = false
+            print(selectedIndex)
+        }
     }
     
     // to take advantage of this class, this method must be called as super in the sub-class

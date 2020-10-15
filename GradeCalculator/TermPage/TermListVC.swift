@@ -30,10 +30,6 @@ class TermListVC: MultiSelectAndMoveTableViewController {
         return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonSelector))
     }()
     
-    private lazy var deleteButton: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonSelector))
-    }()
-    
     private lazy var alertController: UIAlertController = {
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textField) in
@@ -152,7 +148,7 @@ extension TermListVC {
     // MARK: - Table view data source
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        navigationItem.rightBarButtonItem = tableView.isEditing ? deleteButton : plusButton
+        navigationItem.rightBarButtonItem = tableView.isEditing ? trashButton : plusButton
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -168,7 +164,7 @@ extension TermListVC {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TermListVC.cellIdentifier) as! TermListCell
         let term = terms[indexPath.row]
-        cell.setTerm(term: term)
+        cell.setTerm(viewModel: viewModel, term: term)
         print(term.title)
         return cell
 //        return UITableViewCell()
@@ -177,9 +173,11 @@ extension TermListVC {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         if !tableView.isEditing {
+            let termSummaryVC = TermSummaryVC(viewModel: viewModel, initTerm: terms[indexPath.row])
+            self.navigationController?.pushViewController(termSummaryVC, animated: true)
+            self.tableView.deselectRow(at: indexPath, animated: true)
             print("push the view")
             print(viewModel.getTerms()[indexPath.row].subjects.map({ $0.title }))
-            self.tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     

@@ -41,6 +41,19 @@ class GeneralViewModel: ObservableObject {
     public static let addTermListNotificationName = NSNotification.Name(GeneralViewModel.addTermListKey)
     public static let deleteMultiTermsListNotificationName = Notification.Name(GeneralViewModel.deleteMultiTermsListKey)
     
+    public static let addItemForTermKey = "ADD_ITEM_FOR_TERM_KEY"
+    public static let addItemForTermRow = "ADD_ITEM_FOR_ROW"
+    
+    public static let addItemForTermNotificationName = NSNotification.Name(GeneralViewModel.addItemForTermKey)
+    
+    public static let addRecordListKey = "ADD_RECORD_LIST_KEY"
+    public static let addRecordRowKey = "ADD_RECORD_ROW_KEY"
+    public static let deleteMultiRecordsListKey = "DELETE_MULTI_RECORDs_LIST_KEY"
+    public static let deleteMultiRecordsRows = "DELETE_MULTI_RECORDS_ROWS"
+    
+    public static let addRecordNotificationName = NSNotification.Name(GeneralViewModel.addRecordListKey)
+    public static let deleteMultiRecordsNotificationName = NSNotification.Name(GeneralViewModel.deleteMultiRecordsListKey)
+    
     
 //    @Published private var calculatorModel: CalculatorModel = GeneralViewModel.createCalculatorModel()
 //    @Published private var historyModel: HistoryModel = GeneralViewModel.createHistoryModel()
@@ -49,6 +62,8 @@ class GeneralViewModel: ObservableObject {
     private var termModel: TermModel = GeneralViewModel.createTermModel()
     private var historyModel: HistoryModel = GeneralViewModel.createHistoryModel()
     private var settingModel: SettingModel = GeneralViewModel.createSettingModel()
+    
+    
     
     
     // MARK - Calculator Model
@@ -154,6 +169,17 @@ class GeneralViewModel: ObservableObject {
         return termModel.terms
     }
     
+    public func getTerm(targetTerm: Term) -> Term? {
+        var result: Term?
+        for term in self.termModel.terms {
+            if (targetTerm == term) {
+                result = term
+                break
+            }
+        }
+        return result
+    }
+    
     public func addTerm(title: String) {
         termModel.addTerm(title: title, subjects: nil)
         NotificationCenter.default.post(name: GeneralViewModel.addTermListNotificationName, object: nil, userInfo: [GeneralViewModel.addTermRowKey: termModel.terms.count - 1])
@@ -170,15 +196,26 @@ class GeneralViewModel: ObservableObject {
     
     public func addSubjectsForTerm(targetTerm: Term, subjects: [Subject]) {
         termModel.addSubjectsForTerm(targetTerm: targetTerm, subjects: subjects)
+        NotificationCenter.default.post(name: GeneralViewModel.addItemForTermNotificationName, object: nil, userInfo: [GeneralViewModel.addItemForTermRow: targetTerm])
     }
     
     // MARK - History Model Interface
     public func addHistoryRecord(subject: Subject) {
         self.historyModel.addRecord(subject: subject)
+        NotificationCenter.default.post(name: GeneralViewModel.addRecordNotificationName, object: nil, userInfo: [GeneralViewModel.addRecordRowKey: historyModel.records.count - 1])
     }
     
     public func getRecords() -> Array<HistoryItem> {
         return self.historyModel.records
+    }
+    
+    public func moveRecord(from source: Int, to destination: Int) {
+        historyModel.moveRecord(from: source, to: destination)
+    }
+    
+    public func removeRecords(at spots: [Bool]) {
+        historyModel.removeRecords(at: spots)
+        NotificationCenter.default.post(name: GeneralViewModel.deleteMultiRecordsNotificationName, object: nil, userInfo: [GeneralViewModel.deleteMultiRecordsRows: spots])
     }
     
     // MARK - Setting Model Interface

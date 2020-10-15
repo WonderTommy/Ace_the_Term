@@ -14,8 +14,6 @@ protocol SubjectListDelegate {
 }
 
 class SubjectListVC: MultiSelectAndMoveTableViewController {
-    
-    
 //    private var tableView = UITableView()
 //    private var calculatorModel: CalculatorModel!// = CalculatorModel()
     private var numOfSections: Int = 1
@@ -50,6 +48,7 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     private let selectSubjectAlertMessage = NSLocalizedString("ALERT_MESSAGE_SELECT_AT_LEAST_ONE_SUBJECT", comment: "")
     private let selectTermAlertMessage = NSLocalizedString("ALERT_MESSAGE_SELECT_AT_LEAST_ONE_FOLDER", comment: "")
     private let alertButtonTextOK = NSLocalizedString("ALERT_BUTTON_OK", comment: "")
+    
     private lazy var newSubjectAlertController: UIAlertController = {
         let alert = UIAlertController(title: newSubjectAlertTitle, message: nil, preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textField) in
@@ -85,9 +84,9 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonSelector))
     }()
     
-    private lazy var deleteButton: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonSelector))
-    }()
+//    private lazy var deleteButton: UIBarButtonItem = {
+//        return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(presentDeleteAlert))
+//    }()
     
     private lazy var folderButton: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(folderButtonSelector))
@@ -140,14 +139,16 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         termListSegment.setEditing(true, animated: false)
         
         contentView.addArrangedSubview(segmentCancelButton)
-        segmentCancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.85).isActive = true
+        segmentCancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
         segmentCancelButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         contentView.addArrangedSubview(segmentSaveButton)
-        segmentSaveButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.85).isActive = true
+        segmentSaveButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
         segmentSaveButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        return BottomMenu(content: contentView, menuHeight: 400, paddingTop: 16, paddingBottom: -36, paddingLeft: 0, paddingRight: 0, dismissOnClickOff: false)
+        let bottomMenu = BottomMenu(content: contentView, menuHeight: 400, paddingTop: 16, paddingBottom: -36, paddingLeft: 0, paddingRight: 0, dismissOnClickOff: true)
+        bottomMenu.setDelegate(delegate: self)
+        return bottomMenu
     }()
     
     override func viewDidLoad() {
@@ -183,7 +184,7 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         self.navigationItem.title = self.navigationBarTitle
 //        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonSelector(_:)))
 //        let editButton = UIBarButtonItem(title: editButtonText, style: .plain, target: self, action: #selector(editButtonSelector(_:)))
-        self.navigationItem.rightBarButtonItem = tableView.isEditing ? deleteButton : plusButton
+        self.navigationItem.rightBarButtonItem = tableView.isEditing ? trashButton : plusButton
         self.navigationItem.leftBarButtonItem = editButtonItem
     }
     
@@ -226,6 +227,7 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
         super.deleteButtonSelector()
     }
     
+    
     @objc private func folderButtonSelector() {
         print("click button clicked")
 //        present(UINavigationController(rootViewController: TermListVC(viewModel: viewModel)), animated: true, completion: nil)
@@ -251,8 +253,6 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
             for index in selectedTermIndex {
                 viewModel.addSubjectsForTerm(targetTerm: terms[index], subjects: selectedSubjects)
             }
-            
-            termListSegment.clearSelectedIndex()
             bottomMenuLauncher.dismissBottomMenu()
             setEditing(false, animated: true)
         } else {
@@ -261,7 +261,6 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     }
     
     @objc private func segmentCancelButtonSelector() {
-        termListSegment.clearSelectedIndex()
         bottomMenuLauncher.dismissBottomMenu()
         setEditing(false, animated: true)
     }
@@ -307,11 +306,18 @@ class SubjectListVC: MultiSelectAndMoveTableViewController {
     }
 }
 
+extension SubjectListVC: BottomMenuDelegate {
+    func dismissAction() {
+        termListSegment.clearSelectedIndex()
+        setEditing(false, animated: true)
+    }
+}
+
 extension SubjectListVC {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
 //        tableView.setEditing(editing, animated: animated)
-        navigationItem.rightBarButtonItems = tableView.isEditing ? [deleteButton, folderButton] : [plusButton]
+        navigationItem.rightBarButtonItems = tableView.isEditing ? [trashButton, folderButton] : [plusButton]
     }
 //    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 //        print("didEndDisplaying\(indexPath.row)")

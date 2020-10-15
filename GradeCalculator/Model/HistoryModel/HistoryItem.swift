@@ -13,6 +13,18 @@ struct HistoryItem: Identifiable {
     var time: String
     var subject: Subject
     
+    var totalScore: String {
+        get {
+            return subject.totalScore
+        }
+    }
+    
+    var totalWeight: String {
+        get {
+            return subject.totalWeight
+        }
+    }
+    
     init(id: Int, subject: Subject) {
         self.id = id
         self.subject = subject

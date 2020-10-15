@@ -42,10 +42,6 @@ class ItemListVC: MultiSelectAndMoveTableViewController {
         return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonSelector))
     }()
     
-    private lazy var deleteButton: UIBarButtonItem = {
-        return UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonSelector))
-    }()
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.contentInset = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
@@ -77,7 +73,7 @@ class ItemListVC: MultiSelectAndMoveTableViewController {
     private func setNavBar() {
 //        self.navigationItem.largeTitleDisplayMode = .automatic
         self.navigationItem.title = self.subject.title
-        self.navigationItem.rightBarButtonItems = tableView.isEditing ? [editButtonItem, deleteButton] : [plusButton, editButtonItem, calculationButton]
+        self.navigationItem.rightBarButtonItems = tableView.isEditing ? [editButtonItem, trashButton] : [plusButton, editButtonItem, calculationButton]
     }
     
     private func configureTableView() {
@@ -108,7 +104,7 @@ class ItemListVC: MultiSelectAndMoveTableViewController {
     // MARK - selectors
     @objc private func calculationButtonSelector() {
         print("calculation button clicked")
-        navigationController?.pushViewController(ResultVC(subject: subject), animated: true)
+        navigationController?.pushViewController(ResultVC(viewModel: viewModel, subject: subject), animated: true)
     }
     
     @objc private func addButtonSelector() {
@@ -162,7 +158,7 @@ extension ItemListVC {
         tableView.setEditing(editing, animated: animated)
         self.navigationItem.rightBarButtonItems = tableView.isEditing ? [editButtonItem] : [plusButton, editButtonItem, calculationButton]
         self.navigationItem.hidesBackButton = tableView.isEditing
-        self.navigationItem.leftBarButtonItem = tableView.isEditing ? deleteButton : nil
+        self.navigationItem.leftBarButtonItem = tableView.isEditing ? trashButton : nil
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

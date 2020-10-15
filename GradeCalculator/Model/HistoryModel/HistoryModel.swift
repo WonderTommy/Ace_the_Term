@@ -22,5 +22,20 @@ struct HistoryModel {
         lastRecordId += 1
     }
     
+    mutating public func removeRecords(at spots: [Bool]) {
+        let length = spots.count
+        for rawIndex in 0..<length {
+            let index = length - 1 - rawIndex
+            if spots[index] == true {
+                records.remove(at: index)
+            }
+        }
+    }
+    
+    mutating public func moveRecord(from source: Int, to destination: Int) {
+        let temp = records[source]
+        records.remove(at: source)
+        records.insert(temp, at: destination)
+    }
     
 }

@@ -60,13 +60,13 @@ class TermListSegment: UITableView {
 
 extension TermListSegment: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.getTerms().count
+        return viewModel.getTerms().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TermListSegment.cellIdentifier) as! TermListCell
         let term = terms[indexPath.row]
-        cell.setTerm(term: term)
+        cell.setTerm(viewModel: viewModel, term: term)
         print(term.title)
         return cell
     }

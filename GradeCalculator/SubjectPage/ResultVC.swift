@@ -12,15 +12,29 @@ class ResultVC: UIViewController {
     
     private let pageTitle = NSLocalizedString("PAGE_TITLE_RESULT", comment: "")
     private let saveButtonText = NSLocalizedString("BUTTON_TEXT_SAVE", comment: "")
+    private let cancelButtonText = NSLocalizedString("BUTTON_TEXT_CANCEL", comment: "")
     private let totalPointLabelText = NSLocalizedString("RESULT_ITEM_LABEL_TOTAL", comment: "")
     private let highestPossibleLabelText = NSLocalizedString("RESULT_ITEM_LABEL_HIGHEST_POSSITLE", comment: "")
     private let pointLostLabelText = NSLocalizedString("RESULT_ITEM_LABEL_POINTS_LOST", comment: "")
+    private let saveToHistoryMessage = NSLocalizedString("ALERT_MESSAGE_SAVE_RESULT_TO_HISTORY", comment: "")
     
     private let messageUnder = NSLocalizedString("RESULT_MESSAGE_UNDER", comment: "")
     private let messageOver = NSLocalizedString("RESULT_MESSAGE_OVER", comment: "")
     private let messageOK = NSLocalizedString("RESULT_MESSAGE_OK", comment: "")
     
+    private var viewModel: GeneralViewModel
     private var subject: Subject
+    
+    private lazy var saveToHistoryAlert: UIAlertController = {
+        let alert = UIAlertController(title: saveToHistoryMessage, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: saveButtonText, style: .default, handler: { (action) in
+            self.saveAlertSaveButtonAction()
+        }))
+        alert.addAction(UIAlertAction(title: cancelButtonText, style: .cancel, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        return alert
+    }()
     
     private lazy var saveButton: UIBarButtonItem = {
         return UIBarButtonItem(title: saveButtonText, style: .done, target: self, action: #selector(saveButtonAction))
@@ -76,7 +90,7 @@ class ResultVC: UIViewController {
         var label = UILabel()
         let totalPercentage = CalculationUtility.summationPercentage(items: subject.items)
         label.text = totalPercentage == 100 ? messageOK : totalPercentage > 100 ? "\(messageOver)(\(totalPercentage)%)" : "\(messageUnder)(\(totalPercentage)%)"
-        label.textColor = totalPercentage == 100 ? .systemGreen : totalPercentage > 100 ? .systemRed : .systemYellow
+        label.textColor = totalPercentage == 100 ? viewModel.getOkColor() : totalPercentage > 100 ? viewModel.getWarningColor() : viewModel.getRemainderColor()
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -124,7 +138,8 @@ class ResultVC: UIViewController {
     private var secondRow = UIStackView()
     private var thirdRow = UIStackView()
     
-    init(subject: Subject) {
+    init(viewModel: GeneralViewModel, subject: Subject) {
+        self.viewModel = viewModel
         self.subject = subject
         super.init(nibName: nil, bundle: nil)
     }
@@ -276,7 +291,12 @@ class ResultVC: UIViewController {
     
     // MARK - Button actions
     @objc private func saveButtonAction() {
-        print("save button clicked")
+        present(saveToHistoryAlert, animated: true, completion: nil)
+    }
+    
+    @objc private func saveAlertSaveButtonAction() {
+        print("save subject")
+        viewModel.addHistoryRecord(subject: subject)
     }
 
 }

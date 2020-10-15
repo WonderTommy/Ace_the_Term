@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol BottomMenuDelegate {
+    func dismissAction()
+}
+
 class BottomMenu: NSObject {
     private var content: UIView
     private var paddingTop: CGFloat
@@ -16,6 +20,8 @@ class BottomMenu: NSObject {
     private var paddingRight: CGFloat
     private var menuHeight: CGFloat
     private var dismissOnClickOff: Bool
+    
+    private var delegate: BottomMenuDelegate?
     
     private let shadowView = UIView()
     
@@ -36,6 +42,10 @@ class BottomMenu: NSObject {
         super.init()
         setUpLayout()
         addContentView()
+    }
+    
+    public func setDelegate(delegate: BottomMenuDelegate) {
+        self.delegate = delegate
     }
     
     private func setUpLayout() {
@@ -75,6 +85,7 @@ class BottomMenu: NSObject {
     }
     
     @objc public func dismissBottomMenu() {
+        delegate?.dismissAction()
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.shadowView.alpha = 0
             
